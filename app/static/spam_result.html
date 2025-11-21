@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spam Detection Results</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{
+      --bg-a:#1fb6ff; /* sky */
+      --bg-b:#6a00f4; /* indigo */
+      --card:#ffffff1a; /* white/10 */
+      --muted:#ffffffb3;
+      --shadow:#00000033;
+      --green:#2ecc71;
+      --green-700:#1f8f4d;
+      --red:#e74c3c;
+      --red-700:#b8362a;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,"Helvetica Neue",Arial,"Apple Color Emoji","Segoe UI Emoji",sans-serif;
+      color:#fff;
+      background:radial-gradient(1200px 800px at 20% 20%, #32d2ff66 0%, #1fb6ff 25%, #1aa3e0 45%, #147bd1 65%, #1160c9 82%, #0f4fbf 100%),
+                 linear-gradient(135deg,var(--bg-a),var(--bg-b));
+      display:flex;align-items:center;justify-content:center;
+      padding:24px;
+    }
+    .card{
+      width:min(740px, 92vw);
+      background:linear-gradient(180deg, #ffffff1f, #ffffff14);
+      border:1px solid #ffffff2e;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius:18px;
+      box-shadow:0 20px 40px var(--shadow);
+      padding:32px 28px;
+      text-align:center;
+    }
+    .title{
+      margin:0 0 8px 0;
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:0.2px;
+      display:flex; align-items:center; justify-content:center; gap:10px;
+    }
+    .emoji{
+      width:28px;height:28px; display:inline-grid; place-items:center;
+      background:#ffffff24; border:1px solid #ffffff3a; border-radius:8px;
+      box-shadow:0 4px 10px var(--shadow);
+    }
+    .sub{
+      margin:0 0 22px 0;
+      color:var(--muted);
+      font-size:13.5px;
+    }
+    .stats{
+      display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 24px 0;
+    }
+    .stat{
+      background:#ffffff26;
+      border:1px solid #ffffff3d;
+      border-radius:14px;
+      padding:18px 14px;
+      box-shadow:0 10px 20px var(--shadow);
+    }
+    .stat-label{
+      font-size:12px; text-transform:uppercase; letter-spacing:0.6px; color:#ffffffc9;
+    }
+    .stat-value{
+      margin-top:6px; font-size:34px; font-weight:900; letter-spacing:0.3px;
+    }
+    .row{
+      display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:12px;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:14px 18px; min-width:260px; border-radius:12px;
+      border:none; cursor:pointer; font-weight:800; letter-spacing:0.2px;
+      box-shadow:0 14px 24px var(--shadow); transition:.2s transform,.2s filter,.2s box-shadow;
+      color:#fff; text-decoration:none; font-size:15px;
+    }
+    .btn:active{ transform: translateY(1px) }
+    .btn-green{ background:linear-gradient(180deg,#34d27f,#29b36a); }
+    .btn-green:hover{ filter:brightness(1.04) }
+    .btn-red{ background:linear-gradient(180deg,#ef5b4d,#e34b3a); }
+    .btn-red:hover{ filter:brightness(1.05) }
+    .btn-outline{
+      background:transparent; border:1px solid #ffffff55; color:#fff;
+      min-width:160px;
+    }
+    .hint{ color:#ffffffb0; font-size:12.5px; margin-top:12px }
+    .upload{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; margin-top:16px;
+    }
+    .file{
+      background:#ffffff; color:#0b1736; border-radius:10px; padding:10px 12px; font-weight:600;
+      border:1px solid #e6e8ef;
+    }
+
+    .icon{ margin-right:8px }
+    @media (max-width:560px){
+      .stat-value{ font-size:28px }
+      .btn{ min-width:220px }
+    }
+  /* File picker wrapper */
+    .file-row{
+      display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:center; margin-top:18px;
+    }
+    .file-box{
+      display:flex; align-items:center; gap:12px;
+      background:linear-gradient(145deg,#e9f2ff,#e0edff);
+      border:1px solid #c8dcff;
+      border-radius:14px;
+      padding:12px 14px;
+      min-width:320px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.08) inset, 0 10px 24px rgba(0,56,112,.12);
+      color:#12325b;
+    }
+    .file-box .label{
+      font-weight:800; letter-spacing:.2px; color:#0b2a4a; white-space:nowrap;
+    }
+    .file-box input[type="file"]{
+      appearance:none; -webkit-appearance:none; -moz-appearance:none;
+      border:none; background:transparent; color:#12325b; font-weight:600;
+      max-width:360px;
+    }
+    .btn-blue{
+      background:linear-gradient(180deg,#5aa8ff,#3c8cff);
+      color:#fff; font-weight:800; letter-spacing:.2px;
+      padding:13px 16px; border-radius:12px; border:none; cursor:pointer;
+      box-shadow:0 14px 24px rgba(0,56,112,.25);
+      transition:.18s transform,.18s filter;
+    }
+    .btn-blue:hover{ filter:brightness(1.05) }
+    .btn-blue:active{ transform:translateY(1px) }
+
+    /* Overlay + toast (if not already added) */
+    .overlay { position: fixed; inset: 0; background: rgba(15,23,42,.55); display: none; align-items:center; justify-content:center; z-index: 50; backdrop-filter: blur(2px); }
+    .spinner { width: 56px; height: 56px; border: 5px solid #ffffff55; border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%); background: #10b981; color: #062b21; padding: 12px 16px; border-radius: 10px; font-weight: 700; box-shadow: 0 12px 24px rgba(0,0,0,.28); z-index: 60; display: none; }
+    .toast.error { background: #ef4444; color: #3b0a0a; }
+
+    .logout-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .logout-btn:hover {
+      background: #c0392b;
+      transform: translateY(-2px);
+    }
+
+    /* Timeout Warning */
+    .timeout-warning {
+      display: none;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff9800;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+    }
+
+    .timeout-warning.active {
+      display: block;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .logout-btn {
+        position: static;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+        <!-- Logout Button -->
+        <button class="logout-btn" id="logoutBtn">🚪 Logout</button>
+  </div>
+  <main class="card">
+    <h1 class="title">
+      <span class="emoji">✉️</span>
+      Spam Detection Results
+    </h1>
+    <p class="sub">Summary for your selected date range</p>
+
+    <section class="stats">
+      <div class="stat">
+        <div class="stat-label">Total Emails</div>
+        <div class="stat-value" id="totalCount">{{ total_count }}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Spam Emails</div>
+        <div class="stat-value" id="spamCount">{{ spam_count }}</div>
+      </div>
+    </section>
+
+    <div class="row">
+      <a class="btn btn-green" href="/download-results">
+        <span class="icon">⬇️</span> Download Spam Report (Excel)
+      </a>
+      <form id="trashForm" method="post" action="/move-to-trash">
+        <button type="button" id="trashBtn" class="btn btn-red">
+          <span class="icon">🗑️</span> Move Spam Mails to Trash
+        </button>
+      </form>
+    </div>
+
+    <div class="upload">
+      <form method="post" action="/upload-corrections" enctype="multipart/form-data" class="file-row">
+        <div class="file-box">
+          <span class="label">Choose File</span>
+          <input type="file" name="file" accept=".xlsx" required />
+        </div>
+        <button type="submit" class="btn-blue">Upload Corrected Excel</button>
+      </form>
+    </div>
+
+    <p class="hint">Confirm or adjust the Prediction values in Excel to “spam” or “not-spam”, upload it, then click “Move Spam Mails to Trash”.</p>
+  </main>
+  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const trashBtn = document.getElementById("trashBtn");
+    const overlay = document.getElementById("actionOverlay");
+    const toast = document.getElementById("toast");
+    const spamEl = document.getElementById("spamCount");
+
+    function showOverlay() {
+      overlay.style.display = "flex";
+    }
+
+    function hideOverlay() {
+      overlay.style.display = "none";
+    }
+
+    function showToast(msg, isError = false) {
+      toast.textContent = msg;
+      toast.classList.toggle("error", isError);
+      toast.style.display = "block";
+
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 2200);
+    }
+
+    async function getSpamSummary() {
+      try {
+        const res = await fetch("/spam-summary?_=" + Date.now());
+        return res.ok ? await res.json() : { count: 0, source: "from model" };
+      } catch {
+        return { count: 0, source: "from model" };
+      }
+    }
+
+    async function moveToTrash() {
+
+      showOverlay(); // SHOW SPINNER
+
+      try {
+        const res = await fetch("/move-to-trash", { method: "POST" });
+        if (!res.ok) throw new Error("HTTP Error");
+
+        let msg = "Spam mails moved to Trash.";
+
+        const data = await res.json().catch(() => null);
+        if (data && typeof data.moved === "number") {
+          msg = `${data.moved} spam mails moved to Trash.`;
+        }
+
+        showToast(msg, false);
+
+        // Update spam count UI
+        const summary = await getSpamSummary();
+        spamEl.textContent = summary.count;
+
+      } catch (e) {
+        showToast("Failed to move mails. Try again.", true);
+      }
+
+      hideOverlay(); // HIDE SPINNER
+    }
+
+    trashBtn.addEventListener("click", async function () {
+      const { count, source } = await getSpamSummary();
+      const label = source === "user corrected" ? "from User modified" : "from model";
+
+      if (confirm(`Move ${count} spam mails to Trash? (source: ${label})`)) {
+        await moveToTrash();
+      }
+    });
+
+    // ===== AUTO-LOGOUT & TIMEOUT - ADDED =====
+    let inactivityTimer;
+    let warningTimer;
+    const INACTIVITY_LIMIT = 9 * 60 * 1000; // 9 minutes
+    const WARNING_TIME = 60 * 1000; // 60 seconds
+    const timeoutWarning = document.getElementById('timeoutWarning');
+    const timeoutCounter = document.getElementById('timeoutCounter');
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      clearTimeout(warningTimer);
+      if (timeoutWarning) timeoutWarning.classList.remove('active');
+      
+      warningTimer = setTimeout(() => {
+        showTimeoutWarning();
+      }, INACTIVITY_LIMIT);
+      
+      inactivityTimer = setTimeout(() => {
+        autoLogout();
+      }, INACTIVITY_LIMIT + WARNING_TIME);
+    }
+
+    function showTimeoutWarning() {
+      if (timeoutWarning) {
+        timeoutWarning.classList.add('active');
+        let secondsLeft = 60;
+        
+        const countdownInterval = setInterval(() => {
+          secondsLeft--;
+          if (timeoutCounter) timeoutCounter.textContent = secondsLeft;
+          if (secondsLeft <= 0) clearInterval(countdownInterval);
+        }, 1000);
+      }
+    }
+
+    async function autoLogout() {
+      try {
+        await fetch('/logout', { method: 'POST' });
+        alert('You have been logged out due to inactivity.');
+        window.location.href = '/';
+      } catch (error) {
+        window.location.href = '/';
+      }
+    }
+
+    // Track user activity
+    ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'].forEach(event => {
+      document.addEventListener(event, resetInactivityTimer, true);
+    });
+
+    resetInactivityTimer();
+
+    // Logout Button Handler
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async function() {
+        if (confirm('Are you sure you want to logout?')) {
+          try {
+            await fetch('/logout', { method: 'POST' });
+            window.location.href = '/';
+          } catch (error) {
+            window.location.href = '/';
+          }
+        }
+      });
+    }
+    // ===== END AUTO-LOGOUT & TIMEOUT =====
+    
+  });
+  </script>
+
+
+
+  <div id="actionOverlay" class="overlay" style="display:none;">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast for status messages -->
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <!-- Timeout Warning -->
+  <div class="timeout-warning" id="timeoutWarning">
+    ⏰ You will be logged out in <span id="timeoutCounter">60</span> seconds due to inactivity
+  </div>
+</body>
+</html>
