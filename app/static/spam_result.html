@@ -404,5 +404,30 @@
   <div class="timeout-warning" id="timeoutWarning">
     ⏰ You will be logged out in <span id="timeoutCounter">60</span> seconds due to inactivity
   </div>
+  <!-- Footer - Bottom Right with SVG Icons -->
+    <footer style="position: fixed; bottom: 15px; right: 20px; z-index: 1000;">
+      <div style="display: flex; gap: 15px; align-items: center; font-size: 13px;">
+        <a href="/privacy" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
+            <path d="M12 7v4M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Privacy Policy
+        </a>
+        <span style="color: rgba(255,255,255,0.4);">|</span>
+        <a href="/terms" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Terms of Service
+        </a>
+      </div>
+      <p style="margin: 8px 0 0 0; font-size: 11px; color: rgba(255,255,255,0.7); text-align: right;">&copy; 2025 Email Spam Detector</p>
+    </footer>
+  
 </body>
 </html>

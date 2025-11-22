@@ -406,6 +406,24 @@ async def debug_session(request: Request):
         "user_id": request.session.get("user_id", "None")[:8] + "..." if request.session.get("user_id") else "None"
     })
 
+@app.get("/privacy", response_class=HTMLResponse)
+async def privacy():
+    """Privacy policy page."""
+    try:
+        with open(STATIC_DIR / "privacy.html", encoding='utf-8') as f:
+            return HTMLResponse(f.read())
+    except FileNotFoundError:
+        return HTMLResponse("<h1>Privacy Policy</h1><p>Coming soon...</p>")
+
+@app.get("/terms", response_class=HTMLResponse)
+async def terms():
+    """Terms of service page."""
+    try:
+        with open(STATIC_DIR / "terms.html", encoding='utf-8') as f:
+            return HTMLResponse(f.read())
+    except FileNotFoundError:
+        return HTMLResponse("<h1>Terms of Service</h1><p>Coming soon...</p>")
+
 
 @app.post("/logout")
 async def logout(request: Request):
