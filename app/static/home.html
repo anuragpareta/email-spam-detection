@@ -5,44 +5,68 @@
   <title>Gmail Quick Fetch</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-sky-500 to-indigo-600 min-h-screen flex items-center justify-center">
-  <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl w-full max-w-lg text-white">
-    <h1 class="text-2xl font-bold mb-4">Sign in with Google</h1>
-    <form method="post" action="/authorize" class="space-y-4">
-      <!-- <label class="block">
-        <span class="text-sm">Enter (optional) Gmail ID</span>
-        <input name="email" type="email" placeholder="you@example.com" class="mt-1 block w-full rounded-md p-2 text-black" />
-      </label> -->
-      <div>
-        <button type="submit" class="bg-white text-indigo-700 font-semibold py-2 px-4 rounded-md">Sign in and Authorize Gmail Access</button>
-      </div>
-      <p class="text-xs mt-3 text-white/70">You will be redirected to Google to authorize access.</p>
-    </form>
+<body class="bg-gradient-to-r from-sky-500 to-indigo-600 min-h-screen flex flex-col items-center justify-start py-12">
+
+  <!-- 🌟 TOP HEADER SECTION (NEW) -->
+  <div class="text-center mb-10 px-4">
+      <h1 class="text-4xl font-extrabold mb-2 text-white drop-shadow-md">
+          📧 Email Spam Detector
+      </h1>
+      <h2 class="text-lg font-medium text-indigo-200">
+          AI-Powered Gmail Protection
+      </h2>
+      <p class="text-sm text-white/80 mt-3 max-w-md mx-auto">
+          Detect spam emails using machine learning and keep your inbox clean.
+      </p>
+      <div class="mt-5 w-24 h-1 mx-auto bg-indigo-300/80 rounded-full"></div>
   </div>
-  <!-- Footer - Bottom Right with SVG Icons -->
-    <footer style="position: fixed; bottom: 15px; right: 20px; z-index: 1000;">
+  <!-- 🌟 END HEADER -->
+
+  <!-- 🔽 EXISTING LOGIN CARD  -->
+  <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl w-full max-w-lg text-center text-white shadow-lg">
+      <h1 class="text-xl font-bold mb-4">Sign in with Google</h1>
+
+      <form method="post" action="/authorize" class="space-y-4">
+          <button type="submit"
+              class="bg-white text-indigo-700 font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition">
+              Sign in and Authorize Gmail Access
+          </button>
+          <p class="text-xs mt-3 text-white/70">You will be redirected to Google to authorize access.</p>
+      </form>
+  </div>
+
+  <!-- 🔽 FOOTER  -->
+  <footer style="position: fixed; bottom: 15px; right: 20px; z-index: 1000;">
       <div style="display: flex; gap: 15px; align-items: center; font-size: 13px;">
-        <a href="/privacy" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
-            <path d="M12 7v4M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-          Privacy Policy
-        </a>
-        <span style="color: rgba(255,255,255,0.4);">|</span>
-        <a href="/terms" style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14 2 14 8 20 8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10 9 9 9 8 9"></polyline>
-          </svg>
-          Terms of Service
-        </a>
+          <a href="/privacy"
+              style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;"
+              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <rect x="5" y="11" width="14" height="10" rx="2" ry="2"></rect>
+                  <path d="M12 7v4M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              Privacy Policy
+          </a>
+          <span style="color: rgba(255,255,255,0.4);">|</span>
+          <a href="/terms"
+              style="color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; opacity: 0.9; transition: opacity 0.3s;"
+              onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.9'">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+              Terms of Service
+          </a>
       </div>
-      <p style="margin: 8px 0 0 0; font-size: 11px; color: rgba(255,255,255,0.7); text-align: right;">&copy; 2025 Email Spam Detector</p>
-    </footer>
+      <p style="margin: 8px 0 0 0; font-size: 11px; color: rgba(255,255,255,0.7); text-align: right;">
+          &copy; 2025 Email Spam Detector
+      </p>
+  </footer>
 
 </body>
 </html>
