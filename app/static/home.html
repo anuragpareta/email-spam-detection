@@ -9,9 +9,10 @@
 
   <!-- 🌟 TOP HEADER SECTION (NEW) -->
   <div class="text-center mb-10 px-4">
-      <h1 class="text-4xl font-extrabold mb-2 text-white drop-shadow-md">
-          📧 Email Spam Detector
-      </h1>
+    <h1 class="text-4xl font-extrabold mb-2 text-white drop-shadow-md flex items-center justify-center gap-2">
+        <img src="../static/logo.png" alt="Email Spam Detector logo" class="w-8 h-8 inline-block" />
+        Email Spam Detector
+    </h1>
       <h2 class="text-lg font-medium text-indigo-200">
           AI-Powered Gmail Protection
       </h2>
@@ -22,18 +23,54 @@
   </div>
   <!-- 🌟 END HEADER -->
 
-  <!-- 🔽 EXISTING LOGIN CARD  -->
-  <div class="bg-white/10 backdrop-blur-md p-8 rounded-xl w-full max-w-lg text-center text-white shadow-lg">
-      <h1 class="text-xl font-bold mb-4">Sign in with Google</h1>
+<!-- ⭐ Improved WOW 50–50 Layout -->
+<div class="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 mt-6">
 
-      <form method="post" action="/authorize" class="space-y-4">
+  <!-- LEFT: Description -->
+  <div class="bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl backdrop-blur flex flex-col justify-center">
+      <h2 class="text-2xl font-semibold text-white mb-4">
+        About this app
+      </h2>
+
+      <p class="text-blue-100 mb-4 leading-relaxed">
+        Email Spam Detector connects to your Gmail account using Google OAuth and securely reads
+        your email sender, subject, and body to classify messages as spam or not spam using a
+        custom machine-learning model. It does not send your email content to any third-party
+        services and is used only to show spam predictions in this application.
+      </p>
+
+      <p class="text-blue-100 mb-2">
+        <span class="text-indigo-200 font-semibold">Owner:</span>
+        <span class="font-semibold">Anurag Pareta</span>
+      </p>
+
+      <p class="text-blue-100">
+        <span class="text-indigo-200 font-semibold">Contact:</span>
+        <a href="mailto:anuragpareta94@gmail.com"
+           class="underline hover:text-white">
+          anuragpareta94@gmail.com
+        </a>
+      </p>
+  </div>
+
+  <!-- RIGHT: Sign-in -->
+  <div class="bg-white/10 border border-white/20 rounded-3xl p-10 shadow-2xl backdrop-blur flex flex-col items-center justify-center text-white text-center">
+
+      <h1 class="text-2xl font-bold mb-6 tracking-wide">Sign in with Google</h1>
+
+      <form method="post" action="/authorize" class="w-full max-w-sm">
           <button type="submit"
-              class="bg-white text-indigo-700 font-semibold py-2 px-4 rounded-md shadow-md hover:shadow-lg transition">
+              class="bg-white text-indigo-700 font-semibold py-3 w-full rounded-lg shadow-xl hover:shadow-2xl transition">
               Sign in and Authorize Gmail Access
           </button>
-          <p class="text-xs mt-3 text-white/70">You will be redirected to Google to authorize access.</p>
       </form>
+
+      <p class="text-xs mt-4 text-white/70">
+          You will be redirected to Google to authorize access.
+      </p>
   </div>
+
+</div>
 
   <!-- 🔽 FOOTER  -->
   <footer style="position: fixed; bottom: 15px; right: 20px; z-index: 1000;">

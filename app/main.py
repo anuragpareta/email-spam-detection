@@ -155,7 +155,7 @@ def _get_active_results(request: Request):
 async def home():
     """Home page."""
     try:
-        with open(STATIC_DIR / "home.html") as f:
+        with open(STATIC_DIR / "home.html", "r", encoding="utf-8") as f:
             return HTMLResponse(f.read())
     except FileNotFoundError:
         return JSONResponse({
